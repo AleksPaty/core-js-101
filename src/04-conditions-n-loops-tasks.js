@@ -309,8 +309,19 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const stringCcn = ccn.toString();
+  const numLength = stringCcn.length;
+  let sum = 0;
+  for (let i = 0; i < numLength; i += 1) {
+    if ((numLength - 1) % 2 !== i % 2) {
+      const newNum = stringCcn[i] * 1 * 2;
+      sum += newNum > 9 ? newNum - 9 : newNum;
+    } else {
+      sum += stringCcn[i] * 1;
+    }
+  }
+  return !(sum % 10);
 }
 
 /**
@@ -327,8 +338,16 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  if (num < 9) {
+    return num;
+  }
+
+  const numStrArr = num.toString().split('');
+  let numSum = 0;
+
+  numSum = numStrArr.reduce((prev, cur) => prev + Number(cur), 0);
+  return getDigitalRoot(numSum);
 }
 
 
@@ -353,8 +372,29 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const bracketsConfig = {
+    '[': ']',
+    '{': '}',
+    '(': ')',
+    '<': '>',
+  };
+  const bracketsStak = [];
+
+  for (let i = 0; i < str.length; i += 1) {
+    Object.keys(bracketsConfig).forEach((br) => {
+      if (str[i] === br) {
+        bracketsStak.push(str[i]);
+      }
+
+      if (str[i] === bracketsConfig[br] && br === bracketsStak[bracketsStak.length - 1]) {
+        bracketsStak.pop();
+      } else if (str[i] === bracketsConfig[br]) {
+        bracketsStak.push(str[i]);
+      }
+    });
+  }
+  return bracketsStak.length === 0;
 }
 
 
@@ -378,8 +418,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
